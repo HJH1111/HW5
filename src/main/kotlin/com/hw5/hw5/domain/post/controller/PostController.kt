@@ -1,5 +1,8 @@
 package com.hw5.hw5.domain.post.controller
 
+import com.hw5.hw5.domain.post.dto.CreatePostRequest
+import com.hw5.hw5.domain.post.dto.PostResponse
+import com.hw5.hw5.domain.post.dto.UpdatePostRequest
 import com.hw5.hw5.domain.post.service.PostService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -33,7 +36,7 @@ class PostController(
     fun createPost(
         @RequestBody request: CreatePostRequest
     ): ResponseEntity<PostResponse> {
-        return ResponseEntity.ok(postService.createPost())
+        return ResponseEntity.ok(postService.createPost(request))
     }
 
     @PutMapping("/{postId}")
@@ -41,13 +44,13 @@ class PostController(
         @PathVariable postId: Long,
         @RequestBody request: UpdatePostRequest
     ): ResponseEntity<PostResponse> {
-        return ResponseEntity.ok(postService.updatePost)
+        return ResponseEntity.ok(postService.updatePost(postId, request))
     }
 
     @DeleteMapping("/{postId}")
     fun deletePost(
         @PathVariable postId: Long
     ): ResponseEntity<Unit> {
-        return ResponseEntity.ok(postService.deletePost)
+        return ResponseEntity.ok(postService.deletePost(postId))
     }
 }
