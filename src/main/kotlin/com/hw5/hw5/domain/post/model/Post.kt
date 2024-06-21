@@ -1,11 +1,13 @@
 package com.hw5.hw5.domain.post.model
 
+import com.hw5.hw5.domain.member.model.Member
 import com.hw5.hw5.domain.post.dto.PostResponse
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import java.time.LocalDateTime
 
@@ -21,6 +23,9 @@ class Post(
 
     @Column(name = "created_at")
     var createdAt: LocalDateTime = LocalDateTime.now(),
+
+    @ManyToOne
+    var member: Member
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

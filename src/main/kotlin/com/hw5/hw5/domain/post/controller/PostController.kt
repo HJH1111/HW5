@@ -2,9 +2,13 @@ package com.hw5.hw5.domain.post.controller
 
 import com.hw5.hw5.domain.post.dto.CreatePostRequest
 import com.hw5.hw5.domain.post.dto.PostResponse
+import com.hw5.hw5.domain.post.dto.PostResponseWithComment
 import com.hw5.hw5.domain.post.dto.UpdatePostRequest
 import com.hw5.hw5.domain.post.service.PostService
+import com.hw5.hw5.infra.security.MemberPrincipal
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -19,38 +23,45 @@ import org.springframework.web.bind.annotation.RestController
 class PostController(
     private val postService: PostService
 ) {
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('GENERAL')")
     @GetMapping
     fun getPostList(): ResponseEntity<List<PostResponse>> {
         return ResponseEntity.ok(postService.getPostList())
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('GENERAL')")
     @GetMapping("/{postId}")
     fun getPost(
         @PathVariable postId: Long
-    ): ResponseEntity<PostResponse> {
+    ): ResponseEntity<PostResponseWithComment> {
         return ResponseEntity.ok(postService.getPost(postId))
     }
 
+    @PreAuthorize("hasRole('GENERAL')")
     @PostMapping
     fun createPost(
-        @RequestBody request: CreatePostRequest
+        @RequestBody request: CreatePostRequest,
+        @AuthenticationPrincipal memberPrincipal: MemberPrincipal
     ): ResponseEntity<PostResponse> {
-        return ResponseEntity.ok(postService.createPost(request))
+        return ResponseEntity.ok(postService.createPost(request,memberPrincipal))
     }
 
+    @PreAuthorize("hasRole('GENERAL')")
     @PutMapping("/{postId}")
     fun updatePost(
         @PathVariable postId: Long,
-        @RequestBody request: UpdatePostRequest
+        @RequestBody request: UpdatePostRequest,
+        @AuthenticationPrincipal memberPrincipal: MemberPrincipal
     ): ResponseEntity<PostResponse> {
-        return ResponseEntity.ok(postService.updatePost(postId, request))
+        return ResponseEntity.ok(postService.updatePost(postId, request,memberPrincipal))
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('GENERAL')")
     @DeleteMapping("/{postId}")
     fun deletePost(
-        @PathVariable postId: Long
+        @PathVariable postId: Long,
+        @AuthenticationPrincipal memberPrincipal: MemberPrincipal
     ): ResponseEntity<Unit> {
-        return ResponseEntity.ok(postService.deletePost(postId))
+        return ResponseEntity.ok(postService.deletePost(postId, memberPrincipal))
     }
 }
