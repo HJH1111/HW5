@@ -40,11 +40,13 @@ class MemberService(
 
     fun signUp(request: SignUpRequest): SignUpResponse {
         if (memberRepository.existsByEmail(request.email)) {
-            throw RuntimeException("")
+            throw IllegalArgumentException("해당 이메일 주소는 이미 사용 중입니다. 다른 이메일 주소를 사용해 주세요.")
+        }
+        if (memberRepository.existsByName(request.name)) {
+            throw IllegalArgumentException("이미 다른 계정에서 같은 이름을 사용하고 있습니다. 다른 이름을 사용해 주세요.")
         }
         if (request.name in request.password) throw IllegalArgumentException("비밀번호에 사용자 이름을 사용할 수 없습니다. 다른 비밀번호를 선택해 주세요.")
         if (request.password != request.passwordCheck) throw IllegalArgumentException("비밀번호 불일치")
-        // if ()
 
         return memberRepository.save(
             Member(
