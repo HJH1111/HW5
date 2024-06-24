@@ -1,9 +1,4 @@
 spring:
-  datasource:
-    username: postgres.vfnthdjlbmbrbauiebym
-    url: jdbc:postgresql://aws-0-ap-northeast-2.pooler.supabase.com:5432/postgres
-    password: DEGvIPjuhJBW39Q3
-
   jpa:
     properties:
       hibernate:
