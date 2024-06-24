@@ -32,6 +32,7 @@ class SecurityConfig(
                     "/v3/api-docs/**",
                     "/members/signUp",
                     "/members/logIn",
+                    "/posts/search",
                     "/error"
                 ).permitAll()
                     .anyRequest().authenticated()

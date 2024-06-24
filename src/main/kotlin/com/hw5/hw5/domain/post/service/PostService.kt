@@ -12,6 +12,8 @@ import com.hw5.hw5.domain.post.model.Post
 import com.hw5.hw5.domain.post.model.toPostResponse
 import com.hw5.hw5.domain.post.repository.PostRepository
 import com.hw5.hw5.infra.security.MemberPrincipal
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -20,11 +22,12 @@ import org.springframework.transaction.annotation.Transactional
 class PostService(
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
+
 ) {
 
-    fun getPostList(): List<PostResponse> {
-        return postRepository.findAll().map { it.toPostResponse() }
+    fun getPostPage(pageable: Pageable, title:String): Page<PostResponse> {
+        return postRepository.findByPostPage(pageable, title).map { it.toPostResponse() }
     }
 
     fun getPost(postId: Long): PostResponseWithComment {
@@ -56,7 +59,6 @@ class PostService(
         val result = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
 
         if(result.member.id != memberPrincipal.id) throw IllegalArgumentException("회원 ID가 인증된 사용자 ID와 일치하지 않습니다.")
-
 
         result.title = request.title
         result.content = request.content
