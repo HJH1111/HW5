@@ -24,9 +24,9 @@ class PostService(
     private val commentRepository: CommentRepository,
     private val memberRepository: MemberRepository,
 
-) {
+    ) {
 
-    fun getPostPage(pageable: Pageable, title:String): Page<PostResponse> {
+    fun getPostPage(pageable: Pageable, title: String): Page<PostResponse> {
         return postRepository.findByPostPage(pageable, title).map { it.toPostResponse() }
     }
 
@@ -44,7 +44,8 @@ class PostService(
 
     @Transactional
     fun createPost(request: CreatePostRequest, memberPrincipal: MemberPrincipal): PostResponse {
-        val member = memberRepository.findByIdOrNull(memberPrincipal.id) ?: throw ModelNotFoundException("Member", memberPrincipal.id)
+        val member = memberRepository.findByIdOrNull(memberPrincipal.id)
+            ?: throw ModelNotFoundException("Member", memberPrincipal.id)
         return postRepository.save(
             Post(
                 title = request.title,
@@ -58,7 +59,7 @@ class PostService(
     fun updatePost(postId: Long, request: UpdatePostRequest, memberPrincipal: MemberPrincipal): PostResponse {
         val result = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
 
-        if(result.member.id != memberPrincipal.id) throw IllegalArgumentException("회원 ID가 인증된 사용자 ID와 일치하지 않습니다.")
+        if (result.member.id != memberPrincipal.id) throw IllegalArgumentException("회원 ID가 인증된 사용자 ID와 일치하지 않습니다.")
 
         result.title = request.title
         result.content = request.content
@@ -68,7 +69,7 @@ class PostService(
     @Transactional
     fun deletePost(postId: Long, memberPrincipal: MemberPrincipal) {
         val result = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
-        if(result.member.id != memberPrincipal.id) throw IllegalArgumentException("권한이 없는 사용자입니다.")
+        if (result.member.id != memberPrincipal.id) throw IllegalArgumentException("권한이 없는 사용자입니다.")
         return postRepository.delete(result)
     }
 }

@@ -9,7 +9,7 @@ class JwtAuthenticationToken(
     private val principal: MemberPrincipal,
 
     details: WebAuthenticationDetails
-): AbstractAuthenticationToken(principal.authorities), Serializable {
+) : AbstractAuthenticationToken(principal.authorities), Serializable {
 
     init {
         super.setAuthenticated(true)
@@ -20,7 +20,7 @@ class JwtAuthenticationToken(
 
     override fun getCredentials() = null
 
-    override fun isAuthenticated(): Boolean{
+    override fun isAuthenticated(): Boolean {
         return true
     }
 }

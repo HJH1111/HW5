@@ -1,6 +1,5 @@
 package com.hw5.hw5.domain.member.model
 
-import com.hw5.hw5.domain.member.dto.LogInResponse
 import com.hw5.hw5.domain.member.dto.MemberResponse
 import com.hw5.hw5.domain.member.dto.SignUpResponse
 import com.hw5.hw5.domain.post.model.Post

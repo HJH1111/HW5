@@ -25,13 +25,16 @@ class CommentService(
     }
 
     fun getComment(postId: Long, commentId: Long): CommentResponse {
-        return commentRepository.findByPostIdAndId(postId,commentId)?.toCommentResponse()
+        return commentRepository.findByPostIdAndId(postId, commentId)?.toCommentResponse()
             ?: throw ModelNotFoundException("Comment", commentId)
     }
 
     @Transactional
     fun createComment(postId: Long, request: CommentRequest, memberPrincipal: MemberPrincipal): CommentResponse {
-        val member = memberRepository.findByIdOrNull(memberPrincipal.id) ?: throw ModelNotFoundException("Member", memberPrincipal.id)
+        val member = memberRepository.findByIdOrNull(memberPrincipal.id) ?: throw ModelNotFoundException(
+            "Member",
+            memberPrincipal.id
+        )
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         return commentRepository.save(
             Comment(
@@ -39,18 +42,22 @@ class CommentService(
                 member = member,
                 post = post
 
-
             )
         ).toCommentResponse()
     }
 
     @Transactional
-    fun updateComment(postId: Long, commentId: Long, request: CommentRequest, memberPrincipal: MemberPrincipal): CommentResponse {
+    fun updateComment(
+        postId: Long,
+        commentId: Long,
+        request: CommentRequest,
+        memberPrincipal: MemberPrincipal
+    ): CommentResponse {
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         val comment = commentRepository.findByIdOrNull(commentId) ?: throw ModelNotFoundException("Comment", commentId)
 
-        if(comment.post.id != post.id) throw ModelNotFoundException("Post", post.id)
-        if(comment.member.id != memberPrincipal.id) throw ModelNotFoundException("Member", memberPrincipal.id)
+        if (comment.post.id != post.id) throw ModelNotFoundException("Post", post.id)
+        if (comment.member.id != memberPrincipal.id) throw ModelNotFoundException("Member", memberPrincipal.id)
 
         comment.content = request.content
         return commentRepository.save(comment).toCommentResponse()
@@ -61,8 +68,8 @@ class CommentService(
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         val comment = commentRepository.findByIdOrNull(commentId) ?: throw ModelNotFoundException("Comment", commentId)
 
-        if(comment.post.id != post.id) throw ModelNotFoundException("Post", post.id)
-        if(comment.member.id != memberPrincipal.id) throw ModelNotFoundException("Member", memberPrincipal.id)
+        if (comment.post.id != post.id) throw ModelNotFoundException("Post", post.id)
+        if (comment.member.id != memberPrincipal.id) throw ModelNotFoundException("Member", memberPrincipal.id)
         return commentRepository.delete(comment)
     }
 }

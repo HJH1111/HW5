@@ -12,20 +12,17 @@ import com.querydsl.core.types.dsl.PathBuilder
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
-import org.springframework.data.relational.core.sql.SelectBuilder.SelectFrom
 import org.springframework.stereotype.Repository
 
 @Repository
-class PostRepositoryImpl: QueryDslSupport(), PostRepositoryCustom {
+class PostRepositoryImpl : QueryDslSupport(), PostRepositoryCustom {
 
     private val post = QPost.post
 
-
     override fun findByPostPage(pageable: Pageable, title: String?): Page<Post> {
 
-
         val whereClause = BooleanBuilder()
-        title?. let { whereClause.and(post.title.like("%$title%"))}
+        title?.let { whereClause.and(post.title.like("%$title%")) }
 
         val totalCount = queryFactory
             .select(post.count())
@@ -38,7 +35,7 @@ class PostRepositoryImpl: QueryDslSupport(), PostRepositoryCustom {
             .where(whereClause)
             .offset(pageable.offset)
             .limit(pageable.pageSize.toLong())
-            .orderBy(*getOrderSpecifier(pageable,post))
+            .orderBy(*getOrderSpecifier(pageable, post))
             .fetch()
 
         return PageImpl(content, pageable, totalCount)

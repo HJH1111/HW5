@@ -26,7 +26,6 @@ class MemberController(
         return ResponseEntity.ok(memberService.getMemberList())
     }
 
-
     @PostMapping("/signUp")
     fun signUp(
         @RequestBody request: SignUpRequest

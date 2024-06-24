@@ -29,7 +29,7 @@ class Comment(
     @ManyToOne(fetch = FetchType.LAZY)
     var member: Member
 
-    ) {
+) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
@@ -40,4 +40,4 @@ fun Comment.toCommentResponse(): CommentResponse = CommentResponse(
     content = content,
     createdAt = createdAt,
 
-)
+    )
