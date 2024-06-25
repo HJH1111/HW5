@@ -3,6 +3,7 @@ package com.hw5.hw5.domain.comment.controller
 import com.hw5.hw5.domain.comment.dto.CommentRequest
 import com.hw5.hw5.domain.comment.dto.CommentResponse
 import com.hw5.hw5.domain.comment.service.CommentService
+import com.hw5.hw5.domain.comment.dto.PostIdResponse
 import com.hw5.hw5.infra.security.MemberPrincipal
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -25,9 +26,8 @@ class CommentController(
     @PreAuthorize("hasRole('ADMIN') or hasRole('GENERAL')")
     @GetMapping
     fun getCommentList(
-        @PathVariable postId: Long
-    ): ResponseEntity<List<CommentResponse>> {
-        return ResponseEntity.ok(commentService.getCommentList(postId))
+    ): ResponseEntity<List<PostIdResponse>> {
+        return ResponseEntity.ok(commentService.getCommentList())
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('GENERAL')")

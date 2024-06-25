@@ -2,6 +2,7 @@ package com.hw5.hw5.domain.comment.model
 
 import com.hw5.hw5.domain.comment.dto.CommentResponse
 import com.hw5.hw5.domain.member.model.Member
+import com.hw5.hw5.domain.comment.dto.PostIdResponse
 import com.hw5.hw5.domain.post.model.Post
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -39,5 +40,12 @@ fun Comment.toCommentResponse(): CommentResponse = CommentResponse(
     id = id!!,
     content = content,
     createdAt = createdAt,
-
     )
+fun Comment.toPostIdResponse(): PostIdResponse = PostIdResponse(
+    postId = post.id!!,
+    postTitle = post.title,
+    postContent = post.content,
+    commentId = id!!,
+    commentContent = content,
+    commentCreatedAt = createdAt,
+)

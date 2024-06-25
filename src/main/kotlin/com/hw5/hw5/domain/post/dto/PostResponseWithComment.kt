@@ -8,5 +8,6 @@ data class PostResponseWithComment(
     val title: String,
     val content: String,
     val createdAt: LocalDateTime,
+    val viewCount: Long,
     val commentList: List<CommentResponse>
 )

@@ -6,6 +6,7 @@ import com.hw5.hw5.domain.member.dto.MemberResponse
 import com.hw5.hw5.domain.member.dto.SignUpRequest
 import com.hw5.hw5.domain.member.dto.SignUpResponse
 import com.hw5.hw5.domain.member.service.MemberService
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
@@ -28,6 +29,7 @@ class MemberController(
 
     @PostMapping("/signUp")
     fun signUp(
+        @Valid
         @RequestBody request: SignUpRequest
     ): ResponseEntity<SignUpResponse> {
         return ResponseEntity.ok(memberService.signUp(request))

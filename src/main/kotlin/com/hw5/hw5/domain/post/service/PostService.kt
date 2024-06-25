@@ -30,14 +30,17 @@ class PostService(
         return postRepository.findByPostPage(pageable, title).map { it.toPostResponse() }
     }
 
+    @Transactional
     fun getPost(postId: Long): PostResponseWithComment {
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
+        post.viewCount()
         val comment = commentRepository.findByPostId(postId).map { it.toCommentResponse() }
         return PostResponseWithComment(
             id = post.id!!,
             title = post.title,
             content = post.content,
             createdAt = post.createdAt,
+            viewCount = post.viewCount,
             commentList = comment
         )
     }

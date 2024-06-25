@@ -10,19 +10,19 @@ data class SignUpRequest(
     val email: String,
 
     @field:Pattern(
-        regexp = "^[a-zA-Z0-9]{3,}\$\n",
+        regexp = "^[a-zA-Z0-9]{3,}$",
         message = "닉네임은 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성되어야 합니다"
     )
     val name: String,
 
     @field:Pattern(
-        regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[^\\w\\s]).{4,15}$",
+        regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\s]).{4,15}\$",
         message = "최소 4자 이상, 15자 이하이며 알파벳 대소문자, 숫자, 그리고 특수문자를 포함해야 합니다"
     )
     val password: String,
 
     @field:Pattern(
-        regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[^\\w\\s]).{4,15}$",
+        regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\s]).{4,15}\$",
         message = "최소 4자 이상, 15자 이하이며 알파벳 대소문자, 숫자, 그리고 특수문자를 포함해야 합니다"
     )
     val passwordCheck: String,

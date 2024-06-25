@@ -4,9 +4,11 @@ import com.hw5.hw5.domain.comment.dto.CommentRequest
 import com.hw5.hw5.domain.comment.dto.CommentResponse
 import com.hw5.hw5.domain.comment.model.Comment
 import com.hw5.hw5.domain.comment.model.toCommentResponse
+import com.hw5.hw5.domain.comment.model.toPostIdResponse
 import com.hw5.hw5.domain.comment.repository.CommentRepository
 import com.hw5.hw5.domain.exception.ModelNotFoundException
 import com.hw5.hw5.domain.member.repository.MemberRepository
+import com.hw5.hw5.domain.comment.dto.PostIdResponse
 import com.hw5.hw5.domain.post.repository.PostRepository
 import com.hw5.hw5.infra.security.MemberPrincipal
 import org.springframework.data.repository.findByIdOrNull
@@ -20,8 +22,8 @@ class CommentService(
     private val postRepository: PostRepository,
 ) {
 
-    fun getCommentList(postId: Long): List<CommentResponse> {
-        return commentRepository.findAll().map { it.toCommentResponse() }
+    fun getCommentList(): List<PostIdResponse> {
+        return commentRepository.findAll().map { it.toPostIdResponse() }
     }
 
     fun getComment(postId: Long, commentId: Long): CommentResponse {

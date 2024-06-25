@@ -29,4 +29,12 @@ class GlobalExceptionHandler {
             .status(HttpStatus.BAD_REQUEST)
             .body(ErrorResponse(e.message))
     }
+    @ExceptionHandler(UpvoteAlreadyExistException::class)
+    fun handleUUpvoteAlreadyExistException(e: UpvoteAlreadyExistException): ResponseEntity<ErrorResponse> {
+        return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(ErrorResponse(e.message))
+    }
+
+
 }
