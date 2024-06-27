@@ -10,8 +10,7 @@ data class SignUpRequest(
     val email: String,
 
     @field:Pattern(
-        regexp = "^[a-zA-Z0-9]{3,}$",
-        message = "닉네임은 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성되어야 합니다"
+        regexp = "^[a-zA-Z0-9]{3,}$"
     )
     val name: String,
 

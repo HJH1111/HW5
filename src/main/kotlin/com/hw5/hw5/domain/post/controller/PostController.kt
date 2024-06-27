@@ -31,7 +31,7 @@ class PostController(
     @GetMapping("/search")
     fun getPostPage(
         @PageableDefault(size = 10, sort = ["createdAt"]) pageable: Pageable,
-        @RequestParam(value = "title", required = false) title: String
+        @RequestParam(value = "title", required = false) title: String?,
     ): ResponseEntity<Page<PostResponse>> {
         return ResponseEntity.ok(postService.getPostPage(pageable, title))
     }
